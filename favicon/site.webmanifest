@@ -1,0 +1,21 @@
+{
+  "name": "ACCER — Associação Caririense das Empresas de Energias Renováveis",
+  "short_name": "ACCER",
+  "icons": [
+    {
+      "src": "web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#12213a",
+  "background_color": "#efe7d8",
+  "display": "standalone"
+}

@@ -6,6 +6,11 @@
     <title>
       ACCER — Associação Caririense das Empresas de Energias Renováveis
     </title>
+    <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./favicon/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -702,6 +707,167 @@
         gap: 10px;
       }
 
+      /* ---------- DISCLAIMER MODAL / MINI ALERT ---------- */
+      .disclaimer-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(11, 21, 38, 0.6);
+        backdrop-filter: blur(2px);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.4s ease,
+          visibility 0.4s ease;
+        z-index: 200;
+      }
+      .disclaimer-backdrop.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .disclaimer-box {
+        position: fixed;
+        z-index: 201;
+        top: 50%;
+        left: 50%;
+        width: min(440px, 88vw);
+        transform: translate(-50%, -50%) scale(0.94);
+        background: var(--white);
+        color: var(--ink);
+        border-radius: 12px;
+        box-shadow: 0 24px 60px rgba(11, 21, 38, 0.35);
+        padding: 32px 30px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          top 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          left 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          bottom 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          right 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          width 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          padding 0.55s ease,
+          transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 0.35s ease,
+          border-radius 0.55s ease,
+          box-shadow 0.55s ease;
+      }
+      .disclaimer-box.show {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .disclaimer-box .disclaimer-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--sun);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 18px;
+      }
+      .disclaimer-box h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .disclaimer-box p {
+        font-size: 14.5px;
+        color: var(--ink-soft);
+        margin-bottom: 22px;
+      }
+      .disclaimer-btn {
+        background: var(--sun);
+        color: var(--white);
+        border: 0;
+        padding: 12px 22px;
+        border-radius: var(--radius);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 600;
+        font-size: 14.5px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+      .disclaimer-btn:hover {
+        background: var(--ember);
+      }
+      .disclaimer-full {
+        display: flex;
+        flex-direction: column;
+        opacity: 1;
+        transition: opacity 0.2s ease;
+      }
+      .disclaimer-mini {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease 0.2s;
+      }
+      .disclaimer-mini .disclaimer-mini-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--sun);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+      .disclaimer-mini .disclaimer-mini-text {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--sky);
+        line-height: 1.35;
+      }
+
+      .disclaimer-box.mini {
+        top: auto;
+        left: auto;
+        bottom: 22px;
+        right: 22px;
+        width: min(280px, 80vw);
+        padding: 14px 16px;
+        border-radius: 10px;
+        transform: translate(0, 0) scale(1);
+        box-shadow: 0 12px 28px rgba(11, 21, 38, 0.25);
+        cursor: pointer;
+      }
+      .disclaimer-box.mini .disclaimer-full {
+        display: none;
+        opacity: 0;
+      }
+      .disclaimer-box.mini .disclaimer-mini {
+        display: flex;
+        opacity: 1;
+      }
+      .disclaimer-box.hide {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.85);
+        pointer-events: none;
+      }
+
+      @media (max-width: 480px) {
+        .disclaimer-box {
+          padding: 26px 22px;
+        }
+        .disclaimer-box.mini {
+          right: 14px;
+          bottom: 14px;
+          left: 14px;
+          width: auto;
+        }
+      }
+
       /* reveal */
       .reveal {
         opacity: 0;
@@ -767,6 +933,34 @@
     </style>
   </head>
   <body>
+    <div class="disclaimer-backdrop" id="disclaimerBackdrop"></div>
+    <div
+      class="disclaimer-box"
+      id="disclaimerBox"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="disclaimerTitle"
+      aria-describedby="disclaimerText"
+    >
+      <div class="disclaimer-full" id="disclaimerFull">
+        <div class="disclaimer-icon" aria-hidden="true">!</div>
+        <h3 id="disclaimerTitle">Este site é apenas um exemplo</h3>
+        <p id="disclaimerText">
+          Esta página foi desenvolvida como demonstração de uma proposta de
+          orçamento. Não é o site oficial da ACCER.
+        </p>
+        <button class="disclaimer-btn" id="disclaimerBtn" type="button">
+          Entendi
+        </button>
+      </div>
+      <div class="disclaimer-mini" id="disclaimerMini" aria-hidden="true">
+        <span class="disclaimer-mini-icon">!</span>
+        <span class="disclaimer-mini-text"
+          >Site de teste — não é o site oficial</span
+        >
+      </div>
+    </div>
+
     <nav class="nav">
       <div class="nav-inner">
         <a href="#top" class="brand">
@@ -1205,6 +1399,40 @@
     </footer>
 
     <script>
+      const disclaimerBackdrop = document.getElementById("disclaimerBackdrop");
+      const disclaimerBox = document.getElementById("disclaimerBox");
+      const disclaimerBtn = document.getElementById("disclaimerBtn");
+      const disclaimerMini = document.getElementById("disclaimerMini");
+
+      requestAnimationFrame(() => {
+        disclaimerBackdrop.classList.add("show");
+        disclaimerBox.classList.add("show");
+        disclaimerBtn.focus();
+      });
+
+      function collapseToMiniAlert() {
+        disclaimerBackdrop.classList.remove("show");
+        disclaimerBox.classList.add("mini");
+        disclaimerMini.setAttribute("aria-hidden", "false");
+        disclaimerBox.setAttribute("aria-label", "Aviso: site de teste, não oficial");
+        disclaimerBox.setAttribute("title", "Clique para fechar o aviso");
+      }
+
+      disclaimerBtn.addEventListener("click", collapseToMiniAlert);
+
+      disclaimerBox.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !disclaimerBox.classList.contains("mini")) {
+          collapseToMiniAlert();
+        }
+      });
+
+      disclaimerBox.addEventListener("click", () => {
+        if (disclaimerBox.classList.contains("mini")) {
+          disclaimerBox.classList.add("hide");
+          setTimeout(() => disclaimerBox.remove(), 400);
+        }
+      });
+
       const toggle = document.getElementById("navToggle");
       const links = document.getElementById("navLinks");
       toggle.addEventListener("click", () => {
